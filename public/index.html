@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Self-Destruct Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 Ephemeral Chat</h1>
+            <p>Secure. Encrypted. Self-Destructing.</p>
+        </header>
+
+        <div id="login-screen">
+            <div class="card">
+                <h2>Create Room</h2>
+                <input type="password" id="create-room-password" placeholder="Set Room Password (Optional)">
+                <button id="create-btn" class="primary-btn">Create New Room</button>
+            </div>
+            <div class="divider">OR</div>
+            <div class="card">
+                <h2>Join Room</h2>
+                <input type="text" id="room-id-input" placeholder="Enter Room ID">
+                <input type="password" id="join-room-password" placeholder="Enter Room Password (If required)">
+                <input type="text" id="room-key-input" placeholder="Enter Encryption Key">
+                <button id="join-btn" class="secondary-btn">Join Room</button>
+            </div>
+        </div>
+
+        <div id="chat-screen" class="hidden">
+            <div class="room-info">
+                <span>Room: <span id="display-room-id" class="code"></span></span>
+                <button id="copy-info-btn">Copy Invite Info</button>
+                <button id="end-session-btn" class="danger-btn hidden">End Session (Host)</button>
+            </div>
+            
+            <div id="messages-container">
+                <!-- Messages will appear here -->
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="message-input" placeholder="Type a secure message..." autocomplete="off">
+                <button id="send-btn">Send</button>
+            </div>
+            <div class="security-notice">
+                ⚠️ Messages self-destruct in 10 seconds. End-to-end encrypted.
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

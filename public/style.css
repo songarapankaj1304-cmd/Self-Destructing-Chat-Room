@@ -1,0 +1,215 @@
+:root {
+    --bg-color: #0d1117;
+    --card-bg: #161b22;
+    --text-primary: #c9d1d9;
+    --text-secondary: #8b949e;
+    --accent-color: #238636;
+    --accent-hover: #2ea043;
+    --danger-color: #da3633;
+    --code-bg: #21262d;
+    --border-color: #30363d;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: var(--text-primary);
+    margin: 0;
+}
+
+p {
+    color: var(--text-secondary);
+    margin-top: 5px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.primary-btn {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.secondary-btn {
+    background-color: var(--code-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.secondary-btn:hover {
+    background-color: var(--border-color);
+}
+
+.danger-btn {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.divider {
+    text-align: center;
+    color: var(--text-secondary);
+    margin: 15px 0;
+    font-size: 0.9em;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Chat Screen */
+.room-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--card-bg);
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.code {
+    font-family: monospace;
+    background-color: var(--code-bg);
+    padding: 2px 5px;
+    border-radius: 4px;
+    user-select: all;
+}
+
+#messages-container {
+    height: 400px;
+    overflow-y: auto;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 80%;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+}
+
+.message.self {
+    align-self: flex-end;
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.message.other {
+    align-self: flex-start;
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+}
+
+.message.system {
+    align-self: center;
+    background-color: transparent;
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    border: none;
+    text-align: center;
+}
+
+.timer-bar {
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    margin-top: 5px;
+    animation: shrink 10s linear forwards;
+}
+
+@keyframes shrink {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+}
+
+#send-btn {
+    width: auto;
+    padding: 0 20px;
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.security-notice {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    margin-top: 10px;
+}
+
+#copy-info-btn {
+    width: auto;
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
