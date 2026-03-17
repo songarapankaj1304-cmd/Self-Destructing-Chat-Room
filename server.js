@@ -7,8 +7,14 @@ const helmet = require('helmet');
 const xss = require('xss');
 const path = require('path');
 const crypto = require('crypto');
-const argon2 = require('argon2');
-
+//1const argon2 = require('argon2');
+function hashPassword(password) {
+    return crypto
+        .createHash('sha256')
+        .update(password + "STATIC_SALT_123")
+        .digest('hex');
+}
+//1
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -120,7 +126,9 @@ io.on('connection', (socket) => {
     // Rate limiter for messages
     const socketRateLimit = { count: 0, lastReset: Date.now() };
 
-    socket.on('create_room', async (data) => {
+    //4socket.on('create_room', async (data) => {
+    socket.on('create_room', (data) => {
+    //4
         // Rate Limit: Room Creation (Prevention #1)
         if (ipStats[ip].createAttempts >= 3) {
             return socket.emit('error', 'Rate limit exceeded: Too many room creations.');
@@ -142,13 +150,17 @@ io.on('connection', (socket) => {
 
         let passwordHash = null;
         if (password) {
-            try {
-                // Use Argon2id for hashing
-                passwordHash = await argon2.hash(password, { type: argon2.argon2id });
-            } catch (err) {
-                console.error('Hashing error:', err);
-                return socket.emit('error', 'Internal server error during room creation.');
-            }
+            //6try {
+            //6    // Use 2id for hashing
+            //6    //2passwordHash = await argon2.hash(password, { type: argon2.argon2id });
+            //6    passwordHash = hashPassword(password);
+            //6    //2
+            //6} catch (err) {
+            //6    console.error('Hashing error:', err);
+            //6    return socket.emit('error', 'Internal server error during room creation.');
+            //6}
+            passwordHash = hashPassword(password);
+            //6
         }
 
         rooms[roomId] = {
@@ -164,7 +176,9 @@ io.on('connection', (socket) => {
         console.log(`[CREATE] Room ${roomId} by ${socket.id}`);
     });
 
-    socket.on('join_room', async (data) => {
+    //5socket.on('join_room', async (data) => {
+    socket.on('join_room', (data) => {
+    //5
         const { roomId, password } = data || {};
 
         // Validation (Prevention #2)
@@ -190,10 +204,16 @@ io.on('connection', (socket) => {
             }
             try {
                 const isValid = await argon2.verify(room.passwordHash, password);
+                //3if (!isValid) {
+                //3    ipStats[ip].joinAttempts++;
+                //3    return socket.emit('error', 'Incorrect Room Password');
+                //3}
+                const isValid = hashPassword(password) === room.passwordHash;
                 if (!isValid) {
                     ipStats[ip].joinAttempts++;
                     return socket.emit('error', 'Incorrect Room Password');
                 }
+                //3
             } catch (err) {
                 console.error('Verification error:', err);
                 return socket.emit('error', 'Internal server error during verification.');
