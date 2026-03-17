@@ -197,28 +197,44 @@ io.on('connection', (socket) => {
         }
 
         // Auth Check (Prevention #6)
+        //8if (room.passwordHash) {
+        //8    if (!password) {
+        //8        ipStats[ip].joinAttempts++;
+        //8        return socket.emit('error', 'Room requires a password');
+        //8    }
+        //8    try {
+        //8        //7const isValid = await argon2.verify(room.passwordHash, password);
+        //8        const isValid = hashPassword(password) === room.passwordHash;
+        //8        //7
+        //8        //3if (!isValid) {
+        //8        //3    ipStats[ip].joinAttempts++;
+        //8        //3    return socket.emit('error', 'Incorrect Room Password');
+        //8        //3}
+        //8        const isValid = hashPassword(password) === room.passwordHash;
+        //8        if (!isValid) {
+        //8            ipStats[ip].joinAttempts++;
+        //8            return socket.emit('error', 'Incorrect Room Password');
+        //8        }
+        //8        //3
+        //8    } catch (err) {
+        //8        console.error('Verification error:', err);
+        //8        return socket.emit('error', 'Internal server error during verification.');
+        //8    }
+        //8}
         if (room.passwordHash) {
             if (!password) {
                 ipStats[ip].joinAttempts++;
                 return socket.emit('error', 'Room requires a password');
             }
-            try {
-                const isValid = await argon2.verify(room.passwordHash, password);
-                //3if (!isValid) {
-                //3    ipStats[ip].joinAttempts++;
-                //3    return socket.emit('error', 'Incorrect Room Password');
-                //3}
-                const isValid = hashPassword(password) === room.passwordHash;
-                if (!isValid) {
-                    ipStats[ip].joinAttempts++;
-                    return socket.emit('error', 'Incorrect Room Password');
-                }
-                //3
-            } catch (err) {
-                console.error('Verification error:', err);
-                return socket.emit('error', 'Internal server error during verification.');
+
+            const isValid = hashPassword(password) === room.passwordHash;
+
+            if (!isValid) {
+                ipStats[ip].joinAttempts++;
+                return socket.emit('error', 'Incorrect Room Password');
             }
         }
+        //8
 
         // Max Users Check (Prevention #8)
         if (room.users.size >= MAX_USERS_PER_ROOM) {
